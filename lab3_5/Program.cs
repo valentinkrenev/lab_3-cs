@@ -17,12 +17,12 @@ namespace lab3_5
             var clipper = new XORCipher();
 
             Console.WriteLine("Введите текст для шифрования");
-            string text = Console.ReadLine();
+            var text = Console.ReadLine();
 
-            string encoded = clipper.Encrypt(text, bob.Key.ToString());
+            var encoded = clipper.Encrypt(text, bob.Key.ToString());
             Console.WriteLine($"encoded {encoded}");
 
-            string decoded = clipper.Decrypt(encoded, alice.Key.ToString());
+            var decoded = clipper.Decrypt(encoded, alice.Key.ToString());
             Console.WriteLine($"decoded {decoded}");
         }
     }
@@ -93,16 +93,7 @@ namespace lab3_5
 
         private Random Rnd { get; } = new();
         public int GetRandom() => Rnd.Next(2, PrimeValue);
-
-        public BigInteger GetPublicKey(int seed)
-        {
-            return OneWayFunc(BasePublicKey, seed);
-        }
-
-        public BigInteger OneWayFunc(BigInteger key, int seed)
-        {
-            return BigInteger.ModPow(key, seed, PrimeValue);
-        }
-
+        public BigInteger GetPublicKey(int seed) => OneWayFunc(BasePublicKey, seed);
+        public BigInteger OneWayFunc(BigInteger key, int seed) => BigInteger.ModPow(key, seed, PrimeValue);
     }
 }
