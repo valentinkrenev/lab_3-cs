@@ -13,9 +13,49 @@ namespace lab3_5
             var bob = new Client(generator);
             bob.InitPrivateKey(alice.GetPublicKey());
             alice.InitPrivateKey(bob.GetPublicKey());
+
+            var clipper = new XORCipher();
+
+            Console.WriteLine("Введите текст для шифрования");
+            string text = Console.ReadLine();
+
+            string encoded = clipper.Encrypt(text, bob.Key.ToString());
+            Console.WriteLine($"encoded {encoded}");
+
+            string decoded = clipper.Decrypt(encoded, alice.Key.ToString());
+            Console.WriteLine($"decoded {decoded}");
         }
     }
+    public class XORCipher
+    {
+        private string GetRepeatKey(string s, int n)
+        {
+            var r = s;
+            while (r.Length < n)
+            {
+                r += r;
+            }
 
+            return r.Substring(0, n);
+        }
+
+        private string Cipher(string text, string secretKey)
+        {
+            var currentKey = GetRepeatKey(secretKey, text.Length);
+            var res = string.Empty;
+
+            for (var i = 0; i < text.Length; i++)
+                res += ((char)(text[i] ^ currentKey[i])).ToString();
+
+            return res;
+        }
+
+        public string Encrypt(string plainText, string password)
+            => Cipher(plainText, password);
+
+        public string Decrypt(string encryptedText, string password)
+            => Cipher(encryptedText, password);
+    }
     class Client
     {
         public DiffiHelmanGenerator Generator { get; }
@@ -52,7 +92,7 @@ namespace lab3_5
         private int PrimeValue { get; }
         private int BasePublicKey { get; }
 
-        private Random Rnd = new Random();
+        private Random Rnd { get; } = new();
         public int GetRandom() => Rnd.Next(2, PrimeValue);
 
         public BigInteger GetKey(int seed)
