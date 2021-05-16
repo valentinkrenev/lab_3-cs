@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Text;
 using System.Xml;
 
 namespace lab3_5
@@ -8,6 +9,8 @@ namespace lab3_5
     {
         static void Main(string[] args)
         {
+            Console.InputEncoding = Encoding.Unicode;
+            Console.OutputEncoding = Encoding.Unicode;
             var generator = new DiffiHelmanGenerator(2002681, 34657434);
             var alice = new Client(generator);
             var bob = new Client(generator);
@@ -42,7 +45,7 @@ namespace lab3_5
         private string Cipher(string text, string secretKey)
         {
             var currentKey = GetRepeatKey(secretKey, text.Length);
-            var res = string.Empty;
+            var res = "";
 
             for (var i = 0; i < text.Length; i++)
                 res += ((char)(text[i] ^ currentKey[i])).ToString();
@@ -92,7 +95,7 @@ namespace lab3_5
         private int PrimeValue { get; }
         private int BasePublicKey { get; }
 
-        private Random Rnd { get; } = new();
+        private Random Rnd { get; } = new Random();
         public int GetRandom() => Rnd.Next(2, PrimeValue);
 
         public BigInteger GetKey(int seed)

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Numerics;
+
 
 namespace lab_3_4
 {
@@ -15,34 +17,31 @@ namespace lab_3_4
             int b = int.Parse(Console.ReadLine());
 
             Console.WriteLine(MathEx.GCD(a, b));
-           
+            //var rnd = new Random(234);
+            //for (int i = 0; i < 1000000; i++)
+            //{
+            //    var b = rnd.Next(2, 13234004);
+            //    if (TestGCD.GCD(i, b) != MathEx.GCD(i, b))
+            //    {
+            //        throw new Exception($"{i} : {b}");
+            //    }
+            //}
+            //Console.WriteLine(MathEx.GCD(19, 3));
         }
     }
-
+  
     class TestGCD
     {
+
+
+
         public static int GCD(int a, int b)
         {
-            if (a == 0)
-            {
-                return b;
-            }
-            else
-            {
-                while (b != 0)
-                {
-                    if (a > b)
-                    {
-                        a -= b;
-                    }
-                    else
-                    {
-                        b -= a;
-                    }
-                }
+            int q = 0;
+            int[] x = new int[] {a, 0, 0};
+            int[] y = new int[] {0, b, 0};
+            int[] t = new int[] {0, 0, 0};
 
-                return a;
-            }
         }
     }
     class MathEx
