@@ -41,10 +41,10 @@ namespace lab_3_4
             if (b == 0)
                 throw new InvalidDataException("b = 0");
 
-            
-            var x = new List<int> { a, 1, 0 };
-            var y = new List<int> { b, 0, 1 };
-            var t = new List<int> { 0, 0, 0 };
+
+            var x = new int[] { a, 1, 0 };
+            var y = new int[] { b, 0, 1 };
+            var t = new int[] { 0, 0, 0 };
             Console.WriteLine("Ost\tX\tY\tChast");
             Console.WriteLine(x[0] + "\t" + x[1] + "\t" + x[2]);
             Console.WriteLine(y[0] + "\t" + y[1] + "\t" + y[2]);
@@ -54,10 +54,9 @@ namespace lab_3_4
                 t[0] = x[0] % y[0];
                 t[1] = x[1] - q * y[1];
                 t[2] = x[2] - q * y[2];
-                x = y;
-                y = t;
-                
-                Console.WriteLine(y[0] + "\t" + y[1] + "\t" + y[2] + "\t" + q );
+                Array.Copy(y, x, 3);
+                Array.Copy(t, y, 3);
+                Console.WriteLine(y[0] + "\t" + y[1] + "\t" + y[2] + "\t" + q);
 
             }
 
