@@ -68,13 +68,12 @@ namespace lab3_5
 
         public BigInteger GetPublicKey()
         {
-            return Generator.GetKey(Seed);
+            return Generator.GetPublicKey(Seed);
         }
 
         public void InitPrivateKey(BigInteger publicKey)
         {
-            this.Key = Generator.GetSecretKey(Seed, publicKey);
-            var str = Key.ToString();
+            this.Key = Generator.OneWayFunc(publicKey, Seed);
         }
 
         public BigInteger Key { get; set; }
@@ -95,14 +94,14 @@ namespace lab3_5
         private Random Rnd { get; } = new();
         public int GetRandom() => Rnd.Next(2, PrimeValue);
 
-        public BigInteger GetKey(int seed)
+        public BigInteger GetPublicKey(int seed)
         {
-            return BigInteger.ModPow(BasePublicKey, seed, PrimeValue);
+            return OneWayFunc(BasePublicKey, seed);
         }
 
-        public BigInteger GetSecretKey(int seed, BigInteger publicKey)
+        public BigInteger OneWayFunc(BigInteger key, int seed)
         {
-            return BigInteger.ModPow(publicKey, seed, PrimeValue);
+            return BigInteger.ModPow(key, seed, PrimeValue);
         }
 
     }
